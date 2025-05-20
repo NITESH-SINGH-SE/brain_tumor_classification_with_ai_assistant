@@ -65,7 +65,7 @@ export default function PatientInfoForm() {
 
       for (const [key, value] of Object.entries(res.data)) {
         if (allowedKeys.includes(key as keyof PatientState)) {
-          setField(key as keyof PatientState, value);
+          setField(key as keyof PatientState, value as PatientState[keyof PatientState]);
         }
       }
 
