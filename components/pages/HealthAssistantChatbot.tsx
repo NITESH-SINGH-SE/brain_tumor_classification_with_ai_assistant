@@ -46,7 +46,7 @@ Help with the follow-up queries.`;
   }, [prediction, description, precautions]);
 
   const handleSend = async () => {
-    const newMessages = [...messages, { role: 'user', content: userInput }];
+    const newMessages: Message[] = [...messages, { role: 'user', content: userInput }];
     setMessages(newMessages);
     setUserInput('');
     setLoading(true);
