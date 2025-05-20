@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface PatientState {
+export interface PatientState {
   name: string;
   age: number;
   gender: string;

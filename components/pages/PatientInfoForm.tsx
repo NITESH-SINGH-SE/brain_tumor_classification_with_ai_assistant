@@ -10,7 +10,7 @@ import {
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
 
-import { usePatientStore } from "@/store/usePatientStore";
+import { usePatientStore, PatientState } from "@/store/usePatientStore";
 
 export default function PatientInfoForm() {
   const { 
@@ -57,8 +57,16 @@ export default function PatientInfoForm() {
       const res = await axios.post('http://localhost:8000/predict', formData);
       setResult(res.data);
 
+      const allowedKeys: (keyof PatientState)[] = [
+        'name', 'age', 'gender', 'email', 'symptoms', 'prediction',
+        'confidence', 'original_image', 'gradcam_image',
+        'description', 'precautions', 'report_path'
+      ];
+
       for (const [key, value] of Object.entries(res.data)) {
-        setField(key, value)
+        if (allowedKeys.includes(key as keyof PatientState)) {
+          setField(key as keyof PatientState, value);
+        }
       }
 
     } catch (err) {
