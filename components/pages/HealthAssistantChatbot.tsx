@@ -19,7 +19,12 @@ export default function HealthAssistantChatbot() {
         precautions,
         report_path,setField, reset } = usePatientStore();
 
-  const [messages, setMessages] = useState([]);
+  type Message = {
+    role: 'system' | 'user' | 'assistant';
+    content: string;
+  };
+
+  const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const controllerRef = useRef<EventSource | null>(null);
