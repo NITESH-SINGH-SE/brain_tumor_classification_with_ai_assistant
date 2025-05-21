@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useParams } from 'next/navigation'
 // import { button } from 'aceternity-ui';
 
 function FloatingPaths({ position }: { position: number }) {
@@ -46,11 +47,9 @@ function FloatingPaths({ position }: { position: number }) {
   )
 }
 
-export default function BackgroundPaths({
-  title = "Brain Tumor Classifier with AI Assistant",
-}: {
-  title?: string
-}) {
+export default function BackgroundPaths() {
+  const params = useParams()
+  const title = "Brain Tumor Classifier with AI Assistant"
   const words = title.split(" ")
 
   return (
