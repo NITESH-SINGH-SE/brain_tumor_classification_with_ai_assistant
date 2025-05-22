@@ -1,7 +1,12 @@
-"use client";
-
 import React from "react";
-import { FloatingDock } from "@/components/ui/floating-dock";
+import { Timeline } from "@/components/ui/timeline";
+import PatientInfoForm from "@/components/pages/PatientInfoForm";
+import PredictionPage from "@/components/pages/PredictionPage";
+import ReportDisplay from "@/components/pages/ReportDisplay";
+import HealthAssistantChatbot from "@/components/pages/HealthAssistantChatbot";
+import BackgroundFloatingPaths from "@/components/ui/background-floating-paths";
+import Navbar from "@/components/ui/navbar";
+import { DockControlledTimeline } from "@/components/ui/custom-dock-timeline";
 import {
   IconBrain,
   IconExchange,
@@ -13,79 +18,60 @@ import {
   IconMessages,
 } from "@tabler/icons-react";
 
-// Import your sections
-import HomePage from "@/components/pages/HomePage";
-import PatientInfoForm from "@/components/pages/PatientInfoForm";
-import PredictionPage from "@/components/pages/PredictionPage";
-import ReportDisplay from "@/components/pages/ReportDisplay";
-import HealthAssistantChatbot from "@/components/pages/HealthAssistantChatbot";
-
-export default function FloatingDockDemo() {
-  const links = [
+export default function TimelineDemo() {
+  const data = [
     {
-      title: "Home",
-      icon: (
-        <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#home",
-    },
-    {
-      title: "Patient Info",
+      title: "Patient Details",
+      navbarTitle: "Patient Details",
       icon: (
         <IconUserPlus className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#patient-info",
+      content: (
+        <PatientInfoForm/>
+      ),
     },
     {
       title: "Prediction",
+      navbarTitle: "Prediction",
       icon: (
         <IconBrain className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        ),
+      content: (
+        <PredictionPage />
       ),
-      href: "#predict",
     },
     {
       title: "Report",
+      navbarTitle: "Report",
       icon: (
-        <IconFileText className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+            <IconFileText className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        ),
+      content: (
+        <ReportDisplay />
       ),
-      href: "#report-display",
     },
     {
       title: "Health Assistant",
+      navbarTitle: "Health Assistant",
       icon: (
-        <IconMessages className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+              <IconMessages className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+            ),
+      content: (
+        <HealthAssistantChatbot />
       ),
-      href: "#health-assistant",
     },
   ];
-
   return (
-    <main className="relative min-h-screen bg-white dark:bg-black text-black dark:text-white scroll-smooth">
-      {/* Sections */}
-      <section id="home" className="min-h-screen flex items-center justify-center">
-        <HomePage />
-      </section>
-
-      <section id="patient-info" className="min-h-screen flex items-center justify-center">
-        <PatientInfoForm />
-      </section>
-
-      <section id="predict" className="min-h-screen flex items-center justify-center">
-        <PredictionPage />
-      </section>
-
-      <section id="report-display" className="min-h-screen flex items-center justify-center">
-        <ReportDisplay />
-      </section>
-
-      <section id="health-assistant" className="min-h-screen flex items-center justify-center">
-        <HealthAssistantChatbot />
-      </section>
-
-      {/* Floating Dock */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-        <FloatingDock desktopClassName="bg-white/70 backdrop-blur-xs rounded-xl shadow-lg p-2" mobileClassName="bg-white/70 backdrop-blur-xs rounded-xl shadow-lg p-2" items={links} />
-      </div>
-    </main>
+    <div className="relative w-full overflow-clip">
+      <BackgroundFloatingPaths
+        // color="rgba(255,255,255,0.3)"
+        count={25}
+        baseOpacity={0.5}
+        // baseStrokeWidth={0.3}
+      />
+      <Navbar/>
+      {/* <Timeline data={data} /> */}
+      <DockControlledTimeline heading="How It Works" subheading="Navigate through step-by-step flow of the application from collecting patient information to AI-driven tumor prediction, report generation, and personalized support through the health assistant." items={data}/>
+    </div>
   );
 }
