@@ -13,6 +13,9 @@ import {
   IconBrandGoogle,
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import { usePatientStore, PatientState } from "@/stores/usePatientStore";
 
@@ -77,6 +80,8 @@ const validateForm = (form: FormData): FormErrors => {
   if (!form.symptoms.trim()) errors.symptoms = "Symptoms are required";
   if (!form.image) errors.image = "Image is required";
 
+  // toast.warning("Please fill required fields.")
+
   return errors;
 };
 
@@ -134,14 +139,27 @@ const validateForm = (form: FormData): FormErrors => {
       }
 
     } catch (err) {
-      alert('Prediction failed. Check backend.');
+      toast.error('Prediction failed. Check backend.');
       console.error(err);
     }
     setLoading(false)
+    toast.success("Data Uploaded. Check Prediction!")
   };
 
   return (
     <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        // newestOnTop={true}
+        closeOnClick
+        // rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Loader loadingStates={loadingStates} loading={loading} duration={2000} />
       <div className="my-8 flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-2/3 space-y-4">

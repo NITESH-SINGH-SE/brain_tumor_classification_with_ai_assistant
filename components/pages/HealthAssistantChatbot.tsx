@@ -100,15 +100,16 @@ Help with the follow-up queries.`;
 
   const chatbotContent = (
     <div>
-          <h1 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+          <h1 className="text-2xl font-bold text-center mb-6">
             Chatbot
           </h1>
           
           <div className="space-y-4 mb-6">
             {/* Display Messages */}
             {messages.filter(m => m.role !== 'system').map((msg, i) => (
-              <div key={i} className={`p-4 rounded-md text-base ${msg.role === 'user' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                <strong className={`${msg.role === 'user' ? 'text-blue-600' : 'text-gray-700'}`}>
+              // <div key={i} className={`p-4 rounded-md text-base ${msg.role === 'user' ? 'bg-blue-100' : 'bg-gray-100'}`}>
+               <div key={i} className={`p-4 rounded-md text-base border-2`}>
+                <strong className={`${msg.role === 'user' ? 'text-blue-600' : 'text-gray-500'}`}>
                   {msg.role === 'user' ? 'You' : 'Assistant'}:
                 </strong> 
                 <p className="mt-2 text-lg">{msg.content}</p>

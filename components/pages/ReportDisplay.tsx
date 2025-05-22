@@ -7,6 +7,8 @@ import axios from 'axios';
 import ReportCard from '../ui/report-card';
 import { IconLock, IconLockOpen } from "@tabler/icons-react";
 import LockableCard from '../ui/lockableCard';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ReportDisplay() {
   const [loading, setLoading] = useState(false);
@@ -51,8 +53,10 @@ export default function ReportDisplay() {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Successfully downloaded file.')
     } catch (error) {
       console.error('Error downloading the file:', error);
+      toast.error('Error downloading the file.')
     }
   };
   
@@ -129,6 +133,19 @@ export default function ReportDisplay() {
 // );
 
   return (
+    <>
+    <ToastContainer
+      position="bottom-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      // newestOnTop={true}
+      closeOnClick
+      // rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+    />
     <LockableCard
       lockedText="Please unlock prediction before report."
       unlockedText="Click on the lock to unlock report."
@@ -142,5 +159,6 @@ export default function ReportDisplay() {
       unlockIconColor = "text-emerald-400"
       unlockIconColorDark = "dark:text-emerald-400"
     />
+    </>
   );
 }
