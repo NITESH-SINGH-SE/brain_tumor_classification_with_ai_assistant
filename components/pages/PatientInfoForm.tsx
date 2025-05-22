@@ -14,7 +14,9 @@ import {
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
 
-import { usePatientStore, PatientState } from "@/store/usePatientStore";
+import { usePatientStore, PatientState } from "@/stores/usePatientStore";
+
+const backendUrl = process.env.BACKEND_URL
 
 const loadingStates = [
   { text: "Uploading Patient Info." },
@@ -113,7 +115,10 @@ const validateForm = (form: FormData): FormErrors => {
 
 
     try {
-      const res = await axios.post('http://localhost:8000/predict', formData);
+      // const res = await axios.post('http://localhost:8000/predict', formData);
+      // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_LOCAL
+      const res = await axios.post(`${backendUrl}/predict`, formData);
       setResult(res.data);
 
       const allowedKeys: (keyof PatientState)[] = [

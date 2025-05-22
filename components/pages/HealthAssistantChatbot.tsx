@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { usePatientStore } from '@/store/usePatientStore';
+import { usePatientStore } from '@/stores/usePatientStore';
+import { useUnlockStore } from '@/stores/unlockStore';
 import axios from 'axios';
 import { TextGenerateEffect } from '../ui/text-generate-effect';
-import { IconLock } from "@tabler/icons-react";
+import { IconLock, IconLockOpen } from "@tabler/icons-react";
+import LockableCard from '../ui/lockableCard';
 
 export default function HealthAssistantChatbot() {
   const { 
@@ -23,6 +25,13 @@ export default function HealthAssistantChatbot() {
     setField,
     reset 
   } = usePatientStore();
+
+  const {
+    predictionUnlocked,
+    reportUnlocked,
+    setPredictionUnlocked,
+    setReportUnlocked,
+  } = useUnlockStore();
 
   type Message = {
     role: 'system' | 'user' | 'assistant';
@@ -89,17 +98,8 @@ Help with the follow-up queries.`;
     setLoading(false);
   };
 
-  return (
-    <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
-      {!prediction ? (
-        <div className="text-center text-lg text-gray-700 dark:text-gray-300">
-          <IconLock className="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500 mb-4" stroke={1.5} />
-          <div className="text-center text-lg text-gray-700 dark:text-gray-300">
-            Please upload patient details to unlock the AI assistant.
-          </div>
-        </div>
-      ) : (
-        <div>
+  const chatbotContent = (
+    <div>
           <h1 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
             Chatbot
           </h1>
@@ -139,7 +139,21 @@ Help with the follow-up queries.`;
             </button>
           </div>
         </div>
-      )}
-    </div>
+  )
+
+  return (
+    <LockableCard
+      lockedText="Please unlock report before health assistant."
+      unlockedText="Click on the lock to unlock health assistant."
+      lockedIcon={<IconLock stroke={1.5} className="mx-auto h-16 w-16 mb-4 " />}
+      unlockedIcon={<IconLockOpen stroke={1.5} size={40} className="mx-auto h-16 w-16 mb-4" />}
+      content={chatbotContent}
+      unlockCondition={reportUnlocked}
+      onUnlock={() => setReportUnlocked(true)}
+      lockIconColor = "text-blue-400"
+      lockIconColorDark = "dark:text-blue-400"
+      unlockIconColor = "text-emerald-400"
+      unlockIconColorDark = "dark:text-emerald-400"
+    />
   );
 }

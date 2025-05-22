@@ -8,7 +8,7 @@ interface ReportCardProps {
 
 const ReportCard: React.FC<ReportCardProps> = ({ description, precautions, handleDownload }) => {
   return (
-    <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
+    <div>
       {/* Title Section */}
       <div className="my-8 px-2">
         <h2 className="text-2xl font-semibold">Description</h2>

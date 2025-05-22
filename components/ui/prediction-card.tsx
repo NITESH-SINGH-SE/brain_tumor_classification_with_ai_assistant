@@ -57,7 +57,7 @@ const PredictionCard: React.FC<PredictionCardProps> = ({ original_image, gradcam
     //     </div>
     //   </div>
     // </div>
-    <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
+    <div className="pl-2 pr-2">
       <div className="space-y-8">
         {/* Prediction */}
         <div className="text-center">

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-import { usePatientStore } from "@/store/usePatientStore";
+import { usePatientStore } from "@/stores/usePatientStore";
+import { useUnlockStore } from '@/stores/unlockStore';
 import axios from 'axios';
 import ReportCard from '../ui/report-card';
-import { IconLock } from "@tabler/icons-react";
+import { IconLock, IconLockOpen } from "@tabler/icons-react";
+import LockableCard from '../ui/lockableCard';
 
 export default function ReportDisplay() {
   const [loading, setLoading] = useState(false);
@@ -23,9 +25,18 @@ export default function ReportDisplay() {
         precautions,
         report_path,setField, reset } = usePatientStore();
 
+  const {
+    predictionUnlocked,
+    reportUnlocked,
+    setPredictionUnlocked,
+    setReportUnlocked,
+  } = useUnlockStore();
+
   const handleDownload = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/download_report', {
+      // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_LOCAL
+      const response = await axios.get(`${backendUrl}/download_report`, {
         params: {
           path: report_path, // Replace with the correct full path
         },
@@ -70,63 +81,66 @@ export default function ReportDisplay() {
   const parsedDescription = useMemo(() => parseTextToList(description), [description]);
   const parsedPrecautions = useMemo(() => parseTextToList(precautions), [precautions]);
 
-  // const handleSendEmail = async () => {
-  //   setLoading(true);
-  //   setStatus('');
+  const reportContent = (
+    <ReportCard
+      description={parsedDescription}
+      precautions={parsedPrecautions}
+      handleDownload={handleDownload}
+    />
+  );
+//   return (
+//     <>
+//     {
+//       !prediction ? (
+//         <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
+//           <IconLock className="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500 mb-4" stroke={1.5} />
+//           <div className="text-center text-lg text-gray-700 dark:text-gray-300">
+//             Please upload patient details to unlock the report.
+//           </div>
+//         </div>
+//       ): (
+//         <>
+//           {/* <h2>Description</h2>
+//           <p>{description}</p>
+//           <h2>Precuations</h2>
+//           <p>{precautions}</p>
+//           <button onClick={handleDownload} className="px-4 py-2 bg-blue-500 text-white rounded">
+//             Download Report
+//           </button> */}
+//           <div>
+//           <ReportCard
+//               description={parsedDescription}
+//               precautions={parsedPrecautions}
+//               handleDownload={handleDownload}
+//             />
+//           </div>
+//           {/* <button
+//             onClick={handleSendEmail}
+//             disabled={loading || !email}
+//             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+//           >
+//             {loading ? 'Sending...' : 'Send Report via Email'}
+//           </button>
+//           {status && <p className="text-sm text-gray-700 mt-2">{status}</p>} */}
+//         </>
+//       )
+//     }
+//     </>
+// );
 
-  //   try {
-  //     const response = await axios.post('http://localhost:8000/email_report', null, {
-  //       params: {
-  //         email: email,
-  //         path: report_path  // Update this with actual path on your server
-  //       }
-  //     });
-
-  //     setStatus(response.data.message);
-  //   } catch (error) {
-  //     setStatus('Failed to send email.');
-  //     console.error(error);
-  //   }
-
-  //   setLoading(false);
-  // };
   return (
-    <>
-    {
-      !prediction ? (
-        <div className="shadow-input mx-auto w-full max-w-5xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-neutral-800">
-          <IconLock className="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500 mb-4" stroke={1.5} />
-          <div className="text-center text-lg text-gray-700 dark:text-gray-300">
-            Please upload patient details to unlock the report.
-          </div>
-        </div>
-      ): (
-        <>
-          {/* <h2>Description</h2>
-          <p>{description}</p>
-          <h2>Precuations</h2>
-          <p>{precautions}</p>
-          <button onClick={handleDownload} className="px-4 py-2 bg-blue-500 text-white rounded">
-            Download Report
-          </button> */}
-          <div>
-          <ReportCard
-              description={parsedDescription}
-              precautions={parsedPrecautions}
-              handleDownload={handleDownload}
-            />
-          </div>
-          {/* <button
-            onClick={handleSendEmail}
-            disabled={loading || !email}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          >
-            {loading ? 'Sending...' : 'Send Report via Email'}
-          </button>
-          {status && <p className="text-sm text-gray-700 mt-2">{status}</p>} */}
-        </>
-      )
-    }
-    </>
-);
+    <LockableCard
+      lockedText="Please unlock prediction before report."
+      unlockedText="Click on the lock to unlock report."
+      lockedIcon={<IconLock stroke={1.5} className="mx-auto h-16 w-16 mb-4 " />}
+      unlockedIcon={<IconLockOpen stroke={1.5} size={40} className="mx-auto h-16 w-16 mb-4" />}
+      content={reportContent}
+      unlockCondition={predictionUnlocked}
+      onUnlock={() => setReportUnlocked(true)}
+      lockIconColor = "text-blue-400"
+      lockIconColorDark = "dark:text-blue-400"
+      unlockIconColor = "text-emerald-400"
+      unlockIconColorDark = "dark:text-emerald-400"
+    />
+  );
 }
