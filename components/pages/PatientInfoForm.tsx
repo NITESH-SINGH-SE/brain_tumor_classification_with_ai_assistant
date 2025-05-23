@@ -27,6 +27,7 @@ const loadingStates = [
   { text: "Preprocessing Image" },
   { text: "Analyzing with CNN" },
   { text: "Generating Heatmap" },
+  { text: "Storing Data" },
   { text: "Summarizing Diagnosis" },
   { text: "Recommending Precautions" },
   { text: "Compiling Final Report" },
