@@ -92,21 +92,5 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 | `npm run start` | Start the production server      |
 | `npm run lint`  | Run linting checks               |
 
----
-
-### 📂 Project Structure (Optional Overview)
-
-```
-my-app/
-├── components/
-├── pages/
-├── public/
-├── styles/
-├── .env.local
-├── package.json
-└── tailwind.config.js
-```
 
 ---
-
-Let me know if you want to include Docker setup, deployment (Vercel, Netlify, etc.), or usage examples for the OpenAI API.
