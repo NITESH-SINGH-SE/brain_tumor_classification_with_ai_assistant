@@ -140,7 +140,7 @@ const validateForm = (form: FormData): FormErrors => {
       }
 
     } catch (err) {
-      toast.error('Prediction failed. Check backend.');
+      // toast.error('Prediction failed. Check backend.');
       console.error(err);
     }
     setLoading(false)
