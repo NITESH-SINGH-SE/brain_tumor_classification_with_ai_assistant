@@ -144,7 +144,7 @@ const validateForm = (form: FormData): FormErrors => {
       console.error(err);
     }
     setLoading(false)
-    toast.success("Data Uploaded. Check Prediction!")
+    // toast.success("Data Uploaded. Check Prediction!")
   };
 
   return (

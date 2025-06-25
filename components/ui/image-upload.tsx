@@ -49,7 +49,7 @@ export const ImageUpload = ({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          // accept="image/*"
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />
